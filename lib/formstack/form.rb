@@ -234,6 +234,11 @@ module FormStack
       # cache submission
       submission = instance_variable_get("@submission_#{submission_id}")
       submission ||= FormStack::Submission.find(submission_id)
+
+      if submission[:status] == "error"
+        raise submission[:error]
+      end
+
       instance_variable_set("@submission_#{submission_id}", submission)
 
       fields = self.data_fields
